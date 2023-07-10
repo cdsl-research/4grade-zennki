@@ -1,0 +1,39 @@
+module{
+  cpu_pod:
+    namespace: test
+  alert: 
+    url: https~~~
+  memori_pod:
+    namespace: test
+  web:
+    url: https://expmple.com
+    }
+module_rule{
+  cpu_pod{
+    loop(3,3s)
+      cpu_pod.percent >= 80:}
+  memori_pod{
+    loop(3,3s)
+      memori_pod.percent >= 80:}
+  web{
+    loop(3,3s)
+      web.status <= 500:}
+      }
+condition{
+  infinite_loop = True:
+    if cpu_pod == False:    
+      alert
+    elseif memori_pod == False:
+      alert
+    elseif web == False:
+      alert
+      }
+
+
+# 監視には10秒おきにHTTPSの外形監視をhttps://booklog.jp/に3回
+# ずつ行いステータスコード400から500か反応がない場合3秒後に名前解決を行う
+#先ほどの条件で反応がない場合，ある場合元の監視に戻る．死活監視を行い反応があるかないかの通知を行う．
+
+動きを定義する所→それを扱う所
+
+
